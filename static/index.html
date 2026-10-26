@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1118">
+  <title>Phòng thử nghiệm mô phỏng</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <a class="brand" href="#overview" aria-label="Trang tổng quan">
+        <span class="brand-mark">◈</span><span><b>LAB</b><small>SIMULATION STUDIO</small></span>
+      </a>
+      <div class="side-label">PHÒNG THỬ NGHIỆM</div>
+      <nav class="nav" aria-label="Điều hướng chính">
+        <button class="nav-item active" data-view="overview"><span>◫</span> Tổng quan</button>
+        <button class="nav-item" data-view="accounts"><span>♙</span> Tài khoản giả lập</button>
+        <button class="nav-item" data-view="compare"><span>⇄</span> So sánh thử nghiệm</button>
+      </nav>
+      <div class="side-label recent-label">THỬ NGHIỆM GẦN ĐÂY</div>
+      <div id="runList" class="run-list"><div class="empty-side">Chưa có thử nghiệm</div></div>
+      <div class="sidebar-bottom"><div class="local-indicator"><i></i> Chạy trên máy này</div><small>Python · SQLite · không cần dịch vụ ngoài</small></div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="breadcrumb"><span>Không gian nghiên cứu</span><b>/</b><strong id="pageName">Tổng quan</strong></div>
+        <div class="top-actions"><span class="model-pill"><i></i> Mô phỏng cục bộ</span><button id="newRunTop" class="button primary small">＋ Thử nghiệm mới</button></div>
+      </header>
+      <div class="safety-banner"><span class="shield">◇</span><span><b>MÔ PHỎNG NỘI BỘ</b> · Chuỗi Google giả lập → TikTok giả lập. Email, tài khoản, video và tương tác chỉ là dữ liệu thử nghiệm; ứng dụng không kết nối Internet hoặc nền tảng thật.</span></div>
+      <div class="workflow-strip" aria-label="Chuỗi quy trình mô phỏng"><div><i>01</i><span><b>Google giả lập</b><small>Tạo hộp thư .test</small></span></div><b class="workflow-arrow">→</b><div><i>02</i><span><b>Xác minh nội bộ</b><small>Thư và mã giả lập</small></span></div><b class="workflow-arrow">→</b><div><i>03</i><span><b>TikTok giả lập</b><small>Tạo hồ sơ thử nghiệm</small></span></div><b class="workflow-arrow">→</b><div><i>04</i><span><b>Tương tác giả lập</b><small>Xem · thích · theo dõi</small></span></div></div>
+
+      <section id="view-overview" class="page-view">
+        <div class="page-heading"><div><div class="eyebrow">BẢNG ĐIỀU KHIỂN</div><h1>Tổng quan thử nghiệm</h1><p>Theo dõi chuỗi Google giả lập → TikTok giả lập và hành vi tổng hợp.</p></div><button id="newRun" class="button primary">＋ Tạo thử nghiệm</button></div>
+        <div id="emptyState" class="empty-card hidden"><div class="empty-art">◈</div><h2>Bắt đầu một thử nghiệm mô phỏng</h2><p>Chọn số tài khoản giả lập, lượng video và xác suất tương tác. Dữ liệu mẫu chỉ được tạo khi bạn bắt đầu.</p><button class="button primary" data-open-create>＋ Cấu hình thử nghiệm đầu tiên</button></div>
+        <div id="dashboard" class="hidden">
+          <div class="run-header card"><div class="run-title"><span class="status-dot" id="statusDot"></span><div><div class="eyebrow" id="runLabel">ĐANG CHẠY</div><h2 id="selectedName">—</h2></div></div><div class="run-controls"><button id="pauseBtn" class="button subtle">Ⅱ Tạm dừng</button><button id="resumeBtn" class="button subtle hidden">▶ Tiếp tục</button><button id="cancelBtn" class="button danger-ghost">Dừng thử nghiệm</button><button id="repeatBtn" class="button subtle">⟳ Chạy lại</button><a id="reportLink" class="button subtle" href="#" target="_blank" rel="noopener">Xuất JSON</a></div></div>
+          <div class="progress-wrap card"><div class="progress-head"><span><b id="progressText">0 / 0</b> tài khoản đã hoàn tất</span><span class="stage" id="stageText">Đang chuẩn bị</span></div><div class="progress-track"><i id="progressBar"></i></div><div class="progress-foot"><span id="seedText">Seed: —</span><span id="finishedText">—</span></div></div>
+          <div class="metric-grid">
+            <article class="metric-card"><div class="metric-top"><span>Hộp thư Google giả lập</span><i class="metric-icon cyan">✉</i></div><strong id="metricEmails">0</strong><small id="verifiedCaption">0 đã xác minh nội bộ</small><div class="metric-accent cyan-accent"></div></article>
+            <article class="metric-card"><div class="metric-top"><span>Tài khoản TikTok giả lập</span><i class="metric-icon violet">♙</i></div><strong id="metricAccounts">0</strong><small>Hồ sơ chỉ có trong phòng thử nghiệm</small><div class="metric-accent violet-accent"></div></article>
+            <article class="metric-card"><div class="metric-top"><span>Lượt xem</span><i class="metric-icon blue">▷</i></div><strong id="metricViews">0</strong><small>Tổng lượt xem mô phỏng</small><div class="metric-accent blue-accent"></div></article>
+            <article class="metric-card"><div class="metric-top"><span>Lượt thích</span><i class="metric-icon pink">♡</i></div><strong id="metricLikes">0</strong><small>Tài khoản/video duy nhất</small><div class="metric-accent pink-accent"></div></article>
+            <article class="metric-card"><div class="metric-top"><span>Lượt theo dõi</span><i class="metric-icon amber">＋</i></div><strong id="metricFollows">0</strong><small>Tài khoản/nhà sáng tạo duy nhất</small><div class="metric-accent amber-accent"></div></article>
+          </div>
+          <div class="content-grid">
+            <article class="card chart-card"><div class="card-heading"><div><h3>Tích lũy tương tác TikTok giả lập</h3><p>Thay đổi theo bước mô phỏng</p></div><div class="legend"><span><i class="legend-view"></i>Xem</span><span><i class="legend-like"></i>Thích</span><span><i class="legend-follow"></i>Theo dõi</span></div></div><div class="chart-area"><svg id="activityChart" viewBox="0 0 700 210" role="img" aria-label="Biểu đồ tích lũy hoạt động mô phỏng"></svg></div></article>
+            <article class="card creator-card"><div class="card-heading"><div><h3>Nhà sáng tạo TikTok giả lập</h3><p>Chỉ tồn tại trong lần chạy này</p></div><span class="count-pill" id="creatorCount">0</span></div><div id="creatorList" class="creator-list"></div></article>
+          </div>
+          <article class="card videos-card"><div class="card-heading"><div><h3>Video trong thử nghiệm</h3><p>Nội dung và số liệu được tạo cục bộ</p></div><span class="count-pill" id="videoCount">0 video</span></div><div class="table-scroll"><table><thead><tr><th>VIDEO GIẢ LẬP</th><th>NHÀ SÁNG TẠO</th><th>LƯỢT XEM</th><th>LƯỢT THÍCH</th></tr></thead><tbody id="videoRows"></tbody></table></div></article>
+          <article class="card activity-card"><div class="card-heading"><div><h3>Hoạt động gần đây</h3><p>Các bước mô phỏng được ghi trong SQLite</p></div><a id="eventsLink" class="text-link" href="#" target="_blank" rel="noopener">Tải CSV ↗</a></div><div id="eventList" class="event-list"></div></article>
+          <footer class="fingerprint hidden" id="fingerprintBox"><span>SHA-256 dấu vân tay kết quả</span><code id="fingerprintText"></code></footer>
+        </div>
+      </section>
+
+      <section id="view-accounts" class="page-view hidden">
+        <div class="page-heading"><div><div class="eyebrow">DỮ LIỆU CỤC BỘ</div><h1>Tài khoản giả lập</h1><p>Hộp thư Google giả lập `.test` và hồ sơ TikTok mô phỏng trong lần chạy.</p></div><a id="accountsCsv" class="button subtle disabled-link" href="#" target="_blank" rel="noopener">↓ Tải CSV</a></div>
+        <div class="card account-card"><div class="filter-row"><div class="search-box"><span>⌕</span><input id="accountSearch" type="search" placeholder="Tìm email hoặc tên giả lập…"></div><select id="accountStatus" aria-label="Lọc trạng thái"><option value="all">Tất cả trạng thái</option><option value="queued">Đang chờ</option><option value="email_created">Đã tạo email giả</option><option value="email_verified">Đã xác minh giả</option><option value="social_created">Đã tạo hồ sơ giả</option><option value="completed">Hoàn tất</option></select><span class="table-total" id="accountTotal">0 tài khoản</span></div><div class="table-scroll"><table><thead><tr><th>TÀI KHOẢN THỬ NGHIỆM</th><th>TRẠNG THÁI</th><th>XEM</th><th>THÍCH</th><th>THEO DÕI</th><th></th></tr></thead><tbody id="accountRows"></tbody></table></div><div class="pagination"><button class="button subtle small" id="prevPage">← Trước</button><span id="pageInfo">Trang 1</span><button class="button subtle small" id="nextPage">Sau →</button></div></div>
+      </section>
+
+      <section id="view-compare" class="page-view hidden">
+        <div class="page-heading"><div><div class="eyebrow">PHÂN TÍCH</div><h1>So sánh thử nghiệm</h1><p>Đối chiếu hai lần chạy đã hoàn tất, gồm chênh lệch và tính lặp lại theo seed.</p></div></div>
+        <div class="card compare-card"><div class="compare-selectors"><label>Lần chạy A<select id="compareA"></select></label><span class="compare-symbol">⇄</span><label>Lần chạy B<select id="compareB"></select></label><button id="compareBtn" class="button primary">So sánh</button></div><div id="compareResult" class="compare-result"><div class="compare-empty">Chọn hai thử nghiệm đã hoàn tất để xem kết quả.</div></div></div>
+      </section>
+      <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    </main>
+  </div>
+
+  <dialog id="createDialog" class="dialog"><form id="createForm" method="dialog"><div class="dialog-head"><div><div class="eyebrow">CẤU HÌNH</div><h2>Tạo thử nghiệm mới</h2></div><button type="button" class="icon-button" data-close-dialog aria-label="Đóng">×</button></div><p class="dialog-note">Các giá trị chỉ tạo dữ liệu nội bộ. Seed giống nhau cho kết quả có thể lặp lại.</p>
+    <label class="field full">Tên thử nghiệm<input name="name" maxlength="80" value="Thử nghiệm tương tác" required></label>
+    <div class="form-grid"><label class="field">Số tài khoản giả lập<input name="account_count" type="number" min="1" max="500" value="12" required></label><label class="field">Seed ngẫu nhiên<input name="seed" type="number" min="0" max="4294967295" value="2026" required></label><label class="field">Nhà sáng tạo giả lập<input name="creator_count" type="number" min="1" max="20" value="3" required></label><label class="field">Video mỗi nhà sáng tạo<input name="videos_per_creator" type="number" min="1" max="20" value="3" required></label><label class="field">Lượt xem mỗi tài khoản<input name="views_per_account" type="number" min="1" max="100" value="2" required></label><label class="field">Độ trễ mỗi bước (ms)<input name="delay_ms" type="number" min="0" max="1000" value="35" required></label><label class="field">Xác suất thích<select name="like_probability"><option value="0">0%</option><option value="0.1">10%</option><option value="0.25">25%</option><option value="0.35" selected>35%</option><option value="0.5">50%</option><option value="0.75">75%</option><option value="1">100%</option></select></label><label class="field">Xác suất theo dõi<select name="follow_probability"><option value="0">0%</option><option value="0.1">10%</option><option value="0.2" selected>20%</option><option value="0.35">35%</option><option value="0.5">50%</option><option value="0.75">75%</option><option value="1">100%</option></select></label></div>
+    <div class="dialog-foot"><button type="button" class="button subtle" data-close-dialog>Hủy</button><button type="submit" class="button primary">▶ Bắt đầu mô phỏng</button></div>
+  </form></dialog>
+  <dialog id="mailDialog" class="dialog mail-dialog"><div class="dialog-head"><div><div class="eyebrow">HỘP THƯ GOOGLE GIẢ LẬP</div><h2 id="mailAddress">—</h2></div><button type="button" class="icon-button" data-close-mail aria-label="Đóng">×</button></div><div class="mail-safety">✳ Hộp thư Google mô phỏng · miền .test · không gửi hoặc nhận email Internet</div><div id="mailBody" class="mail-body"></div></dialog>
+</body>
+</html>
